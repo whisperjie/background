@@ -7,10 +7,11 @@ import win32con
 import win32gui
 
 def getImgUrl():
-    url="https://cn.bing.com/HPImageArchive.aspx?format=js&n=1"
+    url="https://cn.bing.com/HPImageArchive.aspx?format=js&n=10"
     res=requests.get(url)
     
     myjson=json.loads(res.text)
+    #urllist
    
     return myjson['images'][0]['copyright'],myjson["images"][0]['url']
   
