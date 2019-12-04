@@ -3,6 +3,7 @@ import os
 import json
 import re
 import time
+import threading
 import win32api
 import win32con
 import win32gui
@@ -68,7 +69,8 @@ if __name__ == "__main__":
     imgs=getImgUrl()
    # print(url,name)
     for k  in imgs:
-        getImg(imagePath,k['url'],k['name'])
+        t=threading.Thread(target=getImg,args=(imagePath,k['url'],k['name']))
+        t.start()
 
    # absolutePath=os.path.abspath(imagePath+"/"+imageName)
     #print(absolutePath)
