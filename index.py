@@ -25,7 +25,7 @@ def getImgUrl():
         image['name']=pattern.match(v['copyright']).group()
         image['url']=v['url']
         imgs.append(image)
-    print(imgs)
+    #print(imgs)
    
     return imgs
   
@@ -37,15 +37,16 @@ def getImgUrl():
 def getImg(imagePath,url,imageName):
     #https://cn.bing.com/th?id=OHR.PortlandDawn_ZH-CN6187930845_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp
     myurl="https://cn.bing.com/"+url
-    print(myurl)
+  #  print(myurl)
     res=requests.get(url=myurl)
     imagespicificPath=imagePath+imageName+'.jpg'
-    print(imagespicificPath)
+   # print(imagespicificPath)
     
     
     if res.status_code==200:
         with open(imagespicificPath,'wb') as f:
             f.write(res.content)
+            print(imageName+"下载完成")
     else:
         print("获取失败")
 
@@ -70,6 +71,7 @@ if __name__ == "__main__":
    # print(url,name)
     for k  in imgs:
         t=threading.Thread(target=getImg,args=(imagePath,k['url'],k['name']))
+        print(k['name']+"下载中。。。。。。。。。。。。。。。。。。。")
         t.start()
 
    # absolutePath=os.path.abspath(imagePath+"/"+imageName)
