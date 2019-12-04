@@ -1,6 +1,7 @@
 import requests
 import os
 import json
+import re
 import time
 import win32api
 import win32con
@@ -10,10 +11,22 @@ def getImgUrl():
     url="https://cn.bing.com/HPImageArchive.aspx?format=js&n=10"
     res=requests.get(url)
     
-    myjson=json.loads(res.text)
+    myjson=json.loads(res.text)['images']
     #urllist
+    # (© Lee Pengelly/Getty Images Plus)
+    # (© Danny Green/Minden Pictures)
+    #print(myjson)
+    imgs=[]
+    for v in myjson:
+       # imgs[k]=v['copyright']
+        image={}
+        pattern = re.compile(".*?(?=\\()")
+        image['name']=pattern.match(v['copyright']).group()
+        image['url']=v['url']
+        imgs.append(image)
+    print(imgs)
    
-    return myjson['images'][0]['copyright'],myjson["images"][0]['url']
+    return imgs
   
 
 
@@ -25,7 +38,7 @@ def getImg(imagePath,url,imageName):
     myurl="https://cn.bing.com/"+url
     print(myurl)
     res=requests.get(url=myurl)
-    imagespicificPath=imagePath+imageName
+    imagespicificPath=imagePath+imageName+'.jpg'
     print(imagespicificPath)
     
     
@@ -50,15 +63,17 @@ def setBackGround(imagePath):
 
 if __name__ == "__main__":
     imagePath="img/"
-    imageName=time.strftime("%Y-%m-%d", time.localtime())+".jpg"
-    name, url=getImgUrl()
-    print(url,name)
-    getImg(imagePath,url,imageName)
+    #imageName=time.strftime("%Y-%m-%d", time.localtime())+".jpg"
+    
+    imgs=getImgUrl()
+   # print(url,name)
+    for k  in imgs:
+        getImg(imagePath,k['url'],k['name'])
 
-    absolutePath=os.path.abspath(imagePath+"/"+imageName)
-    print(absolutePath)
+   # absolutePath=os.path.abspath(imagePath+"/"+imageName)
+    #print(absolutePath)
     #getImgUrl()
-    setBackGround(absolutePath)
+    #setBackGround(absolutePath)
 
 
 
