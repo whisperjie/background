@@ -1,1 +1,1 @@
-python index.py
+python setBackGround.py
