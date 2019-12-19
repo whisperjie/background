@@ -42,8 +42,9 @@ if __name__ == "__main__":
     imgs=getImgUrl()
     for k  in imgs:
         t=threading.Thread(target=getImg,args=(imagePath,k['url'],k['name']))
-        print(k['name']+"下载中。。。。。。。。。。。。。。。。。。。")
         t.start()
+        print(k['name']+"下载中。。。。。。。。。。。。。。。。。。。")
+        
     
 
 

@@ -2,6 +2,7 @@ import win32api
 import win32con
 import win32gui
 import os
+import time
 import random
 
 def setBackGround(imagePath):
@@ -24,5 +25,8 @@ if __name__ == "__main__":
         imagepathlist.append(index)
 
     size=len(imagepathlist)-1
+    #while True:
     index=random.randint(0,size)
+       # print(index)
     setBackGround(imagepathlist[index])
+        #time.sleep(60*5)
