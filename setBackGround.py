@@ -4,6 +4,8 @@ import win32gui
 import os
 import time
 import random
+import sys
+from tkinter import *
 
 def setBackGround(imagePath):
    # 将下载后的图片设置为Windows系统的桌面
@@ -16,17 +18,38 @@ def setBackGround(imagePath):
     # 刷新桌面
     win32gui.SystemParametersInfo(win32con.SPI_SETDESKWALLPAPER, imagePath, win32con.SPIF_SENDWININICHANGE)
 
+def getDir():
+    if len(sys.argv)==1:
+        print("请输入图片目录")
+    elif sys.argv[1]=='-h':
+        print("请使用-d 文件路径指定图片目录")
+    else:
+        return sys.argv[2]
+
 
 if __name__ == "__main__":
+
     imagePath="img/"
+    #imagePath=getDir()
+    print(imagePath)
+    #if imagePath==None:
+     #   imagePath="img/"
     imagepathlist=[]
     for i in os.listdir(imagePath):
+        print(i)
         index=os.path.abspath(imagePath+"/"+i)
         imagepathlist.append(index)
 
     size=len(imagepathlist)-1
-    #while True:
-    index=random.randint(0,size)
+    while True:
+        index=random.randint(0,size)
        # print(index)
-    setBackGround(imagepathlist[index])
+        setBackGround(imagepathlist[index])
         #time.sleep(60*5)
+        time.sleep(10)
+    
+
+    root = Tk()
+
+    root.withdraw()   # 隐藏窗口
+    root.mainloop() 

@@ -3,6 +3,7 @@ import json
 import re
 import time
 import threading
+import os
 
 
 def getImgUrl():
@@ -26,6 +27,11 @@ def getImgUrl():
 def getImg(imagePath,url,imageName):
     #https://cn.bing.com/th?id=OHR.PortlandDawn_ZH-CN6187930845_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp
     myurl="https://cn.bing.com/"+url
+    for i in os.listdir(imagePath):
+        
+        if i==imageName+'.jpg':
+            print(imageName+"已下载")
+            return
     res=requests.get(url=myurl)
     imagespicificPath=imagePath+imageName+'.jpg'
     if res.status_code==200:
@@ -34,6 +40,7 @@ def getImg(imagePath,url,imageName):
             print(imageName+"下载完成")
     else:
         print("获取失败")
+    return
 
 
 
